@@ -1,0 +1,71 @@
+@startuml
+class Teacher {
+  - id: int
+  - name: string
+  + createCourse(title: string): Course
+  + addLecture(course: Course, topic: string)
+  + addTask(course: Course, question: string)
+  + leaveComment(work: Work, text: string)
+}
+
+class Student {
+  - id: int
+  - name: string
+  + registerToCourse(course: Course)
+  + viewLectures(course: Course)
+  + doTask(task: Task): Work
+}
+
+class Course {
+  - title: string
+  - teacher: Teacher
+  - lectures: List<Lecture>
+  - tasks: List<Task>
+  + addStudent(student: Student)
+}
+
+class Lecture {
+  - topic: string
+  - content: string
+  - course: Course
+}
+
+class Task {
+  - question: string
+  - course: Course
+}
+
+class Work {
+  - answer: string
+  - student: Student
+  - task: Task
+  - grade: Grade
+}
+
+class Grade {
+  - points: int
+  - work: Work
+  + setGrade(points: int)
+}
+
+class Comment {
+  - text: string
+  - teacher: Teacher
+  - work: Work
+}
+
+class Registration {
+  - student: Student
+  - course: Course
+  - date: Date
+}
+Teacher "1" -- "0..*" Course
+Course "1" -- "0..*" Lecture
+Course "1" -- "0..*" Task
+Course "1" -- "0..*" Registration
+Student "1" -- "0..*" Registration
+Student "1" -- "0..*" Work
+Task "1" -- "0..*" Work
+Work "1" -- "0..1" Grade
+Work "1" -- "0..*" Comment
+@enduml
